@@ -1,0 +1,169 @@
+---
+uti: com.xamarin.workbook
+platform: WPF
+packages:
+- id: Microsoft.Bcl
+  version: 1.1.10
+- id: Newtonsoft.Json
+  version: 9.0.1
+- id: Microsoft.Net.Http
+  version: 2.2.29
+- id: Microsoft.Bcl.Build
+  version: 1.0.21
+---
+
+# **OpenWeatherMap Sample**
+
+This is a sample Xamarin workbook that demonstrates how to call the OpenWeatherMap.org weather API in C#.
+
+Note that we will use the JSON.NET package from Newtonsoft since it makes JSON serialization much easier in C#.
+
+```csharp
+#r "Newtonsoft.Json"
+```
+
+The following data classes (i.e model) are required for the deserialization of JSON data from OpenWeatherMap. If you do not know how to produce these classes, simply copy your JSON data to the clip board (or a url that returns JSON data) and use [http://json2csharp.com ](http://json2csharp.com)to automatically generate these data classes.
+
+```csharp
+public class Coord
+    {
+        public double lon { get; set; }
+        public double lat { get; set; }
+    }
+```
+
+```csharp
+public class Sys
+    {
+        public double message { get; set; }
+        public string country { get; set; }
+        public int sunrise { get; set; }
+        public int sunset { get; set; }
+    }
+```
+
+```csharp
+public class Weather
+    {
+        public int id { get; set; }
+        public string main { get; set; }
+        public string description { get; set; }
+        public string icon { get; set; }
+    }
+```
+
+```csharp
+public class Main
+    {
+        public double temp { get; set; }
+        public double temp_min { get; set; }
+        public double temp_max { get; set; }
+        public double pressure { get; set; }
+        public double sea_level { get; set; }
+        public double grnd_level { get; set; }
+        public int humidity { get; set; }
+    }
+```
+
+```csharp
+public class Wind
+    {
+        public double speed { get; set; }
+        public double deg { get; set; }
+    }
+```
+
+```csharp
+public class Clouds
+    {
+        public int all { get; set; }
+    }
+```
+
+The class **WeatherRoot **below is the primary class that holds the weather data. All the other classes above are children of WeatherRoot.
+
+```csharp
+public class WeatherRoot
+    {
+        public Coord coord { get; set; }
+        public Sys sys { get; set; }
+        public List<Weather> weather { get; set; }
+        public string @base { get; set; }
+        public Main main { get; set; }
+        public Wind wind { get; set; }
+        public Clouds clouds { get; set; }
+        public int dt { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public int cod { get; set; }
+    }
+```
+
+Next you will need an API key from OpenWeatherMap.org to make calls to their service. You can open a free key from [http://openweathermap.org/appid](http://openweathermap.org/appid).
+
+```csharp
+private const string APIKey = "b843f18aa40c5e8ad3471058123600f3";
+```
+
+This is the uri we call to get current weather data, passing the location (in a parameter) and the API key. For a list of other APIs and theur URIs, see [http://openweathermap.org/api](http://openweathermap.org/api).
+
+```csharp
+private const string APIUrl = "http://api.openweathermap.org/data/2.5/weather?q={0}&units=imperial&APPID=" + APIKey;
+```
+
+Since we’ll use the **HttpClient **class to make the REST call, we need to add these packages:
+
+```csharp
+#r "System.Net.Http.Extensions"
+#r "System.Net.Http.Primitives"
+```
+
+Let’s also add the using statements required for **HttpClient **and JSON.NET:
+
+```csharp
+using System.Net.Http;
+```
+
+```csharp
+using Newtonsoft.Json;
+```
+
+This is the **HttpClient **object we’ll use to call the OpenWeatherMap API:
+
+```csharp
+var client = new HttpClient();
+```
+
+This string stores the location we want to query for weather data. Simply edit this string to get an upated weather result below in the workbook.
+
+```csharp
+string location = "Seattle, WA"
+```
+
+Then we format the url by inserting the location string in the weather query.
+
+```csharp
+var url = string.Format(APIUrl, location);
+```
+
+And here we make the call to OpenWeatherMap via the **HttpClient**. This is an asyncchronous call that we must await before continuing, which is well supported in Xamarin Workbooks. The call returns a JSON string, which you can see below.
+
+```csharp
+var json = await client.GetStringAsync(url);
+```
+
+Thanks to JSON.NET, we can deserialize the JSON data into our data classes with a single line of code.
+
+```csharp
+WeatherRoot wr = JsonConvert.DeserializeObject<WeatherRoot>(json);
+```
+
+Now that our **WeatherRoot **object is populated with data, we can query it’s values easily.
+
+```csharp
+wr.main.temp
+```
+
+```csharp
+wr.main.temp_max
+```
