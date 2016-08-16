@@ -2,7 +2,7 @@
 Demonstrates how to call the [OpenWeatherMap.org](http://openweathermap.org/api) weather API in C#.
 
 ## Screenshot
-![Screenshot](OpenWeatherMap/OpenWeatherMap.PNG)
+![Screenshot](OpenWeatherMap.PNG)
 
 ## Follow Me
 * Twitter: [@ActiveNick](http://twitter.com/ActiveNick)
