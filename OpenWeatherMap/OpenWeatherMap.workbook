@@ -80,7 +80,7 @@ public class Clouds
     }
 ```
 
-The class **WeatherRoot **below is the primary class that holds the weather data. All the other classes above are children of WeatherRoot.
+The class \*\*WeatherRoot \*\*below is the primary class that holds the weather data. All the other classes above are children of WeatherRoot.
 
 ```csharp
 public class WeatherRoot
@@ -111,14 +111,14 @@ This is the uri we call to get current weather data, passing the location (in a 
 private const string APIUrl = "http://api.openweathermap.org/data/2.5/weather?q={0}&units=imperial&APPID=" + APIKey;
 ```
 
-Since we’ll use the **HttpClient **class to make the REST call, we need to add these packages:
+Since we’ll use the \*\*HttpClient \*\*class to make the REST call, we need to add these packages:
 
 ```csharp
 #r "System.Net.Http.Extensions"
 #r "System.Net.Http.Primitives"
 ```
 
-Let’s also add the using statements required for **HttpClient **and JSON.NET:
+Let’s also add the using statements required for \*\*HttpClient \*\*and JSON.NET:
 
 ```csharp
 using System.Net.Http;
@@ -128,7 +128,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 ```
 
-This is the **HttpClient **object we’ll use to call the OpenWeatherMap API:
+This is the \*\*HttpClient \*\*object we’ll use to call the OpenWeatherMap API:
 
 ```csharp
 var client = new HttpClient();
@@ -137,7 +137,7 @@ var client = new HttpClient();
 This string stores the location we want to query for weather data. Simply edit this string to get an upated weather result below in the workbook.
 
 ```csharp
-string location = "Seattle, WA"
+string location = "New York, NY"
 ```
 
 Then we format the url by inserting the location string in the weather query.
@@ -158,12 +158,17 @@ Thanks to JSON.NET, we can deserialize the JSON data into our data classes with 
 WeatherRoot wr = JsonConvert.DeserializeObject<WeatherRoot>(json);
 ```
 
-Now that our **WeatherRoot **object is populated with data, we can query it’s values easily.
+Now that our \*\*WeatherRoot \*\*object is populated with data, we can query it’s values easily.
 
 ```csharp
-wr.main.temp
+$"The current temperature in {location} is {wr.main.temp.ToString()} F"
 ```
 
 ```csharp
-wr.main.temp_max
+$"The high temperature today in {location} is {wr.main.temp_max.ToString()} F"
 ```
+
+```csharp
+$"The low temperature today in {location} is {wr.main.temp_min.ToString()} F"
+```
+
