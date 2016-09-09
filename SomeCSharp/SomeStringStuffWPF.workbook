@@ -1,0 +1,22 @@
+---
+uti: com.xamarin.workbook
+platform: WPF
+packages: []
+---
+
+# **C# Testing**
+
+Here is some documentation about the code we wrote.
+
+```csharp
+string name = "Chris";
+```
+
+```csharp
+string othername = "Liz";
+```
+
+```csharp
+string output = string.Format($"{name} and {othername} came to the Xamarin Meetup tonight");
+```
+
