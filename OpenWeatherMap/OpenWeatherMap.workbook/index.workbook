@@ -1,15 +1,16 @@
 ---
 uti: com.xamarin.workbook
-platform: WPF
+platforms:
+- WPF
 packages:
-- id: Microsoft.Bcl
-  version: 1.1.10
 - id: Newtonsoft.Json
   version: 9.0.1
 - id: Microsoft.Net.Http
   version: 2.2.29
 - id: Microsoft.Bcl.Build
   version: 1.0.21
+- id: Microsoft.Bcl
+  version: 1.1.10
 ---
 
 # **OpenWeatherMap Sample**
@@ -158,7 +159,7 @@ Thanks to JSON.NET, we can deserialize the JSON data into our data classes with 
 WeatherRoot wr = JsonConvert.DeserializeObject<WeatherRoot>(json);
 ```
 
-Now that our \*\*WeatherRoot \*\*object is populated with data, we can query it’s values easily.
+Now that our \*\*WeatherRoot \*\*object is populated with data, we can query its values easily.
 
 ```csharp
 $"The current temperature in {location} is {wr.main.temp.ToString()} F"
@@ -171,4 +172,3 @@ $"The high temperature today in {location} is {wr.main.temp_max.ToString()} F"
 ```csharp
 $"The low temperature today in {location} is {wr.main.temp_min.ToString()} F"
 ```
-
